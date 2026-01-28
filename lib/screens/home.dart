@@ -1,29 +1,28 @@
-import 'package:day8_hw/models/disney.dart';
 import 'package:day8_hw/service/api.dart';
+import 'package:day8_hw/screens/characters_screen.dart';
+
 import 'info.dart';
 
 import 'package:flutter/material.dart';
 
-class CharactersScreen extends StatelessWidget {
-  String s ;
-  CharactersScreen({super.key,required this.s});
+class Home extends StatelessWidget {
+  
+  const Home({super.key});
   @override
   Widget build(BuildContext context) {
+    List category1 = ["beauty","furniture","groceries"];
+    List img = ["https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
+    ,"https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp",
+    "https://cdn.dummyjson.com/product-images/groceries/ice-cream/thumbnail.webp"];
     return Scaffold(
       appBar: AppBar(),
-      body: FutureBuilder(
-        future: Api().getData(), 
-        builder: (context, snapshot) {
-         if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          
-          if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
+      body: 
+             ListView.builder(
+            itemCount: 3 ,
             itemBuilder: (context, index) {
-              if(s == snapshot.data![index].category){
-              return Container(
+              
+              return 
+              Container(
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -39,19 +38,19 @@ class CharactersScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Image.network(snapshot.data![index].imageUrl!),
+                    Image.network(img[index]),
                     SizedBox(height: 8),
                     Text(
-                      snapshot.data![index].name!,
+                      category1[index],
                       style: TextStyle(fontSize: 22),
                       ),
                     ElevatedButton(
                       onPressed: () {
-                        int i = index;
+                      String s = "${category1[index]}";
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => info(i:i),
+                          builder: (context) => CharactersScreen(s:s),
                         ),
                       );    
                       },
@@ -59,25 +58,18 @@ class CharactersScreen extends StatelessWidget {
                         backgroundColor: Colors.white, 
                         foregroundColor: Colors.black, 
                       ),
-                      child: const Text("info"),
+                      child: const Text("browse"),
                     )
                   ],
                 ),
               );
               }
-              else{
-            return SizedBox.shrink();}
-            },
-          );
-          }
+      
+          )
           
-          if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          }
-          return const Center(child: Text("لا توجد بيانات للعرض"));
-          },
-      ),
-  
-    );
-  }
+        
+
+      );
+    
+ } 
 }

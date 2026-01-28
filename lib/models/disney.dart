@@ -5,9 +5,9 @@ class Disney {
   String? info;
   double? price;
   int? stock;
-  
+  String? category;
 
-  Disney({this.id,this.imageUrl,this.name,this.info,this.price,this.stock});
+  Disney({this.id,this.imageUrl,this.name,this.info,this.price,this.stock,this.category});
 
 
 
@@ -19,6 +19,7 @@ class Disney {
       price: json["price"] ?? 0,
       info: json["description"] ?? "",
       stock: json["stock"] ?? 0,
+      category: json["category"]??"",
     );
   }
 }
